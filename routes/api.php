@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +16,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::post('/register', [AuthController::class, 'register']);
+// ...
+
+use Illuminate\Support\Facades\Http;
+
+Route::post('/chat', function (Request $request) {
+    $response = Http::post('https://api.openai.com/v1/engines/davinci-codex/completions', [
+        'prompt' => $request->input('message'),
+        'max_tokens' => 50,
+    ])->header('Authorization', 'Bearer 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');
+
+    return $response->json();
 });
