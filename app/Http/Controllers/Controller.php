@@ -62,4 +62,19 @@ class AddRoleController extends Controller{
         return response()->json(['message' => 'Role added successfully'], 201);
     }
 }
+use App\Models\User;
+class FavoriteRoleClass extends Controller{
+    public function getFavoriteRoles($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $favoriteRoles = $user->favoriteRoles;
+
+        return response()->json(['favorite_roles' => $favoriteRoles], 200);
+    }
+}
 
