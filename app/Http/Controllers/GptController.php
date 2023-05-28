@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GptController extends Controller
 {
     function generate(Request $request){
         $key = env('OPENAI_TOKEN');
         $client = new Client();
+
+        $validate = Validator::make($request->all(),
+            [
+                'message' => 'required',
+            ]);
 
         $response = $client->post('https://api.openai.com/v1/chat/completions', [
             'headers' => [
@@ -19,8 +25,8 @@ class GptController extends Controller
             'json' => [
                 'model' => 'gpt-3.5-turbo',
                 'messages' => [
-                    ['role' => 'system', 'content' => 'Представь что ты пожарник'],
-                    ['role' => 'user', 'content' => 'Расскажи о своей профессии']
+                    ['role' => 'system', 'content' => "Представь что ты Пожарный"],
+                    ['role' => 'user', 'content' => $request->input('message')]
                 ]
             ]
         ]);
