@@ -20,8 +20,8 @@ class AuthController extends Controller
             //Validated
             $validateUser = Validator::make($request->all(),
                 [
-                    'login' => 'required',
-                    'email' => 'required|email|unique:users,email',
+                    'login' => 'required|unique:users',
+                    'email' => 'required|email',
                     'password' => 'required'
                 ]);
 
@@ -63,7 +63,7 @@ class AuthController extends Controller
         try {
             $validateUser = Validator::make($request->all(),
                 [
-                    'email' => 'required|email',
+                    'login' => 'required',
                     'password' => 'required'
                 ]);
 
@@ -75,14 +75,14 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+            if(!Auth::attempt($request->only(['login', 'password']))){
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password does not match with our record.',
                 ], 401);
             }
 
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('login', $request->login)->first();
 
             return response()->json([
                 'status' => true,
