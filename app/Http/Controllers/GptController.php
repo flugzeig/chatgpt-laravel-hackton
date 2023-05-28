@@ -25,7 +25,7 @@ class GptController extends Controller
             'json' => [
                 'model' => 'gpt-3.5-turbo',
                 'messages' => [
-                    ['role' => 'system', 'content' => "Представь что ты Пожарный"],
+                    ['role' => 'system', 'content' => "Представь что ты ChatGPT 4.0"],
                     ['role' => 'user', 'content' => $request->input('message')]
                 ]
             ]
