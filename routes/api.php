@@ -18,9 +18,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::get('/register', [AuthController::class, 'register']);
 // ...
-
+Route::get('/login', [AuthController::class, 'login']);
 use Illuminate\Support\Facades\Http;
 
 Route::post('/chat', function (Request $request) {

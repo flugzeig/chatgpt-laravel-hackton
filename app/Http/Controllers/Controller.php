@@ -11,33 +11,6 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 }
 
-class AuthController extends Controller
-{
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'login' => 'required|unique:users',
-            'password' => 'required|min:6',
-            'email' => 'required|email|unique:users',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-
-        $user = new User();
-        $user->login = $request->login;
-        $user->password = bcrypt($request->password);
-        $user->email = $request->email;
-        $user->remember_token = bin2hex(random_bytes(40)); // Генерация API-ключа
-        $user->save();
-
-        return response()->json(['remember_token' => $user->remember_token], 201);
-    }
-
-    // ...
-}
-
 use App\Models\Role;
 use Illuminate\Http\Request;
 class AddRoleController extends Controller{
